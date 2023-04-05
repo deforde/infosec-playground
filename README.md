@@ -4,8 +4,12 @@ This is playground for learning about and experimenting with infosec related top
 
 ## stack-smashing
 
-Demonstration of return address manipulation.
+Demonstrations of return address manipulation.
 Based partially on https://insecure.org/stf/smashstack.html.
+
+### 001
+
+Manually modify the return address of a function in order to skip over an instruction.
 
 -------------------------------------------------------------------------------
 
