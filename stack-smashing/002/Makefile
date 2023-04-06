@@ -1,2 +1,2 @@
 a.out: shellcode.c
-	gcc -g3 -static shellcode.c -o shellcode
+	gcc -g3 -fno-stack-protector -static shellcode.c -o shellcode
