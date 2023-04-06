@@ -1,10 +1,11 @@
-#include <unistd.h>
-
 /*
+To compile and examine disassembly:
+$ make shellcode && gdb shellcode -ex="disassemble main"
+
 
 Disassembly of the relevant parts of `main`:
 
-lea    0x968ac(%rip),%rax # 0x498004 - loads the address of the "/bin/sh" string (i.e. %rip + 0x968ac) into %rax, %rip is the instruction pointer
+lea    0x968ac(%rip),%rax # 0x498004 - loads the address of the "/bin/sh" string (i.e. the _value_ at %rip + 0x968ac) into %rax, %rip is the instruction pointer
 mov    %rax,-0x10(%rbp) # copies the address now stored in %rax into the memory address %rbp-0x10, %rbp is the base pointer, which points to the beginning of the current stack frame, this is effectively `name[0] = "/bin/sh"`
 movq   $0x0,-0x8(%rbp) # copies 0x0 into the address %rbp-0x8, this is effectively `name[1] = NULL`
 mov    -0x10(%rbp),%rax # copies the address of %rbp-0x10 into rax, i.e. %rax = &name[0], or just %rax = name
@@ -19,8 +20,9 @@ Disassembly of the relevant parts of `execve`:
 
 mov    $0x3b,%eax # copies 0x3b into %eax, this is the offset into the syscall table, 59 is the index of execve
 syscall # makes the syscall
-
 */
+
+#include <unistd.h>
 
 int main(void) {
     char *name[] = {
