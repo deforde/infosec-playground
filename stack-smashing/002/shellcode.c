@@ -1,9 +1,9 @@
 /*
 To compile and examine disassembly:
-$ make shellcode && gdb shellcode -ex="disassemble main"
+$ make shellcode && gdb shellcode -ex="disassemble foo"
 
 
-Disassembly of the relevant parts of `main`:
+Disassembly of the relevant parts of `foo`:
 
 lea    0x968ac(%rip),%rax # 0x498004 - loads the address of the "/bin/sh" string (i.e. the _value_ at %rip + 0x968ac) into %rax, %rip is the instruction pointer
 mov    %rax,-0x10(%rbp) # copies the address now stored in %rax into the memory address %rbp-0x10, %rbp is the base pointer, which points to the beginning of the current stack frame, this is effectively `name[0] = "/bin/sh"`
@@ -24,11 +24,15 @@ syscall # makes the syscall
 
 #include <unistd.h>
 
-int main(void) {
+void foo(void) {
     char *name[] = {
         "/bin/sh",
         NULL,
     };
     execve(name[0], name, NULL);
+}
+
+int main(void) {
+    foo();
     return 0;
 }
