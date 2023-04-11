@@ -1,5 +1,6 @@
 /*
-The assembly here is based on that extracted from disassembling shellcode.
+The assembly here is based on that extracted from disassembling shellcode
+(and adding an `exit()` syscall).
 
 This is the original assembly:
     jmp . + 40
@@ -11,8 +12,9 @@ This is the original assembly:
     lea 0x8(%rbp),%rsi
     mov 0x8(%rbp),%rdi
     syscall
-    mov $0x0,%eax
-    ret
+    xor %rdi,%rdi
+    mov $0x3c,%al
+    syscall
     call . - 38
     .string "/bin/sh"
 The version used below has been manually tweaked in order to eliminate all
@@ -28,7 +30,7 @@ us to do this. That's where the next stage, sc_stckex.c comes in...
 */
 
 int main() {
-    asm volatile("jmp . + 29\n\t"
+    asm volatile("jmp . + 33\n\t"
                  "pop %rbp\n\t"
                  "mov %rbp,0x8(%rbp)\n\t"
                  "xor %eax,%eax\n\t"
@@ -38,8 +40,9 @@ int main() {
                  "lea 0x8(%rbp),%rsi\n\t"
                  "mov 0x8(%rbp),%rdi\n\t"
                  "syscall\n\t"
-                 "xor %eax,%eax\n\t"
-                 "ret\n\t"
-                 "call . - 27\n\t"
+                 "xor %rdi,%rdi\n\t"
+                 "mov $0x3c,%al\n\t"
+                 "syscall\n\t"
+                 "call . - 31\n\t"
                  ".string \"/bin/sh\"");
 }
