@@ -1,2 +1,2 @@
 aslrd: aslrd.c
-	gcc aslrd.c -o aslrd
+	gcc -g3 aslrd.c -o aslrd
