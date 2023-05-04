@@ -54,4 +54,5 @@ This can be used to execute a sub-program with ASLR disabled:
 
 -------------------------------------------------------------------------------
 
-Everything here is built/executed on an Intel x86\_64 Linux machine.
+Everything here is built/executed within WSL2 running Ubuntu 22.04 on Windows 10
+on an Intel x86\_64 machine.
